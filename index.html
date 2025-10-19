@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>l9osti — عرض التسجيل</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --panel: rgba(0,255,100,0.05); --muted: #a8ffcf; --accent1: #00ff88; --accent2: #1aff9c; --rounded: 18px; }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:'Cairo','Inter',sans-serif}
+    body{
+      background: radial-gradient(circle at top left, #009300 0%, #000000 70%);
+      display:flex; align-items:flex-start; justify-content:center; padding:30px; color:#caffda;
+    }
+    .container{width:100%; max-width:420px; background: var(--panel); border-radius:var(--rounded); padding:16px; backdrop-filter: blur(8px); border:1px solid rgb(63, 255, 0); box-shadow:0 10px 30px rgb(32, 255, 26); z-index:2;}
+    header{text-align:center;margin-bottom:16px}
+    .brand{font-size:61px;color:var(--accent2);font-weight:701;text-shadow:0 0 8px rgba(0,255,100,0.45)}
+    .subtitle{color:var(--muted);font-size:12px;letter-spacing:4px;text-transform:uppercase}
+    .card{background:rgba(0,255,100,0.03);border-radius:14px;padding:16px;margin-bottom:12px;border:1px solid rgba(0,255,100,0.1)}
+    .offer-text{text-align:center;color:#d9ffe9;margin-bottom:11px}
+    .promo-box{display:flex;align-items:center;justify-content:space-between;padding:10px;border-radius:10px;background:rgba(0,255,100,0.03);border:1px solid rgba(0,255,100,0.12)}
+    .promo-code{padding:10px 16px;border-radius:10px;background:rgba(0,0,0,0.4);color:#00ff99;font-weight:600}
+    input[type="text"]{width:100%;padding:14px;border-radius:12px;margin-top:14px;background:rgba(0,255,100,0.05);border:1px solid rgba(0,255,100,0.12);color:#d9ffe9;font-size:15px;outline:none}
+    .small-line{margin-top:10px;color:var(--muted)}
+    .cta{margin-top:14px;display:flex;flex-direction:column;gap:10px}
+    .btn{padding:13px;border-radius:12px;border:none;font-weight:700;cursor:pointer}
+    .btn-primary{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#000;font-weight:800;box-shadow:0 8px 22px rgba(0,255,100,0.2)}
+    .btn-secondary{background:transparent;color:var(--muted);border:1px solid rgba(0,255,100,0.15)}
+    .footer-cta{text-align:center;margin-top:10px;color:var(--muted);font-size:13px}
+
+    /* splash + verify (wie original) */
+    .splash { position:fixed; inset:0; z-index:40; display:flex; align-items:center; justify-content:center; background: linear-gradient(180deg, rgba(0,0,0,0.95), rgba(0,40,0,0.9)); color:#eaffea; text-align:center; padding:20px; transition:opacity .5s ease; }
+    .splash.hidden{opacity:0;pointer-events:none}
+    .splash-card{max-width:680px;width:100%;border-radius:16px;padding:28px;backdrop-filter: blur(4px);background: rgba(0,255,100,0.03);border:1px solid rgba(0,255,100,0.12);box-shadow:0 30px 80px rgba(0,255,100,0.1)}
+    .splash-title{font-size:20px;font-weight:800;margin-bottom:8px;color:#afffcd}
+    .splash-sub{color:var(--muted); margin-bottom:12px}
+
+    .verify { position:fixed; inset:0; z-index:50; display:flex; align-items:center; justify-content:center; background: linear-gradient(180deg, rgba(0,0,0,0.95), rgba(0,60,0,0.9)); color:#eaffea; text-align:center; padding:20px; visibility:hidden; opacity:0; transition:opacity .35s ease, visibility .35s; }
+    .verify.active{visibility:visible; opacity:1}
+    .verify-card{width:100%; max-width:520px; border-radius:18px; padding:26px; background:rgba(0,255,100,0.03); border:1px solid rgba(0,255,100,0.1); box-shadow:0 30px 80px rgba(0,255,100,0.08)}
+    .progress-bar{width:90%;height:12px;border-radius:999px;background:rgba(0,255,100,0.05);overflow:hidden;border:1px solid rgba(0,255,100,0.1);margin:0 auto}
+    .progress-fill{height:100%;width:0%;background:linear-gradient(90deg,#00ff99,#1aff9c);transition:width .15s linear}
+    .percent{margin-top:8px;font-weight:800;color:#b3ffcf}
+    .error-box{display:none;margin-top:18px;background:rgba(255,100,100,0.06);border:1px solid rgba(255,100,100,0.16);color:#ffdede;padding:12px 14px;border-radius:10px;font-weight:600}
+  </style>
+</head>
+<body>
+  <div class="container" id="mainContainer">
+    <header>
+      <div class="brand">THANOS</div>
+      <div class="subtitle">The best server</div>
+    </header>
+
+    <section class="card">
+      <h2 class="offer-text">
+        للاستفادة من <strong>ساعة مجانية</strong> التسجيل الرقمي في
+        <span style="color:#00ff88">Linebet</span>
+      </h2>
+
+      <div class="promo-box">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="promo-code" id="promoCode">l9osti</div>
+        </div>
+        <div><div class="promo-label">:Promo code</div></div>
+      </div>
+
+      <input type="text" id="linbetId" placeholder="ID الخاص بك في Linbet (أرقام فقط)" inputmode="numeric" />
+      <div class="small-line">
+        ليس لديك حساب؟ 
+        <a id="registerLink" href="https://l9osti.lineorgs.com/" target="_blank" rel="noopener noreferrer" style="color:#00ff99; text-decoration:none;">سجل الآن</a>
+      </div>
+
+      <div class="cta">
+        <button class="btn btn-secondary" id="rulesBtn">📋 شروط التسجيل</button>
+        <button class="btn btn-primary" id="enterBtn">دخول اللعبة →</button>
+      </div>
+    </section>
+
+    <div class="footer-cta">انسخ الكود وادخله أثناء التسجيل لتربح الساعة المجانية</div>
+  </div>
+
+  <!-- splash -->
+  <div class="splash" id="splash" style="display:none;">
+    <div class="splash-card">
+      <div class="splash-title">نقوم بفحص المعلومات والحماية — المرجو الانتظار...</div>
+      <div class="splash-sub">تجهيز إجراءات الحماية وكشف أي نشاط مريب.</div>
+      <div style="margin-top:16px;color:#a8ffcf">ستنتقل تلقائياً لمرحلة التحقق</div>
+    </div>
+  </div>
+
+  <!-- verify -->
+  <div class="verify" id="verify">
+    <div class="verify-card">
+      <div class="shield-wrap">
+        <div class="shield" style="width:110px;height:110px;border-radius:14px;display:grid;place-items:center;background:rgba(0,255,100,0.06);box-shadow:0 10px 40px rgba(0,255,100,0.15);animation:float 3s ease-in-out infinite">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2l7 3.5v5.2c0 5-3.6 9.6-7 11-3.4-1.4-7-6-7-11V5.5L12 2z" stroke="#00ff99" stroke-width="1.2" fill="rgba(0,255,100,0.06)"/>
+            <path d="M9.5 11.5l1.8 1.8L14.5 9" stroke="#1aff9c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+          </svg>
+        </div>
+      </div>
+      <div class="ver-title">جاري التحقق والحماية</div>
+      <div class="ver-sub">نقوم بفحص المعلومات وطريقة التسجيل — المرجو الانتظار</div>
+
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="percent" id="percent">0%</div>
+
+      <div class="error-box" id="errorBox">✖مشكلة في تطبيق الشروط المرجو الإنتباه لجميع  الشروط المطلوبة . أو لن يتم التفعيل</div>
+      <div class="btn-row" id="btnRow" style="display:none">
+        <button class="btn btn-primary" id="retryBtn">إعادة المحاولة</button>
+        <button class="btn btn-secondary" id="backBtn">العودة</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- modal شروط (واحد فقط) -->
+  <div class="modal" id="rulesModal" style="position: fixed; inset: 0; background: rgba(0, 0, 0, 0.95); display: flex; align-items: center; justify-content: center; z-index: 999; visibility: hidden; opacity: 0; transition: opacity .3s ease, visibility .3s ease;">
+    <div class="modal-content" style="background: #021b05; border: 1px solid rgba(0,255,100,0.3); border-radius: 16px; padding: 24px; max-width: 380px; width: 90%; color: #dfffec; box-shadow: 0 20px 60px rgba(0,255,100,0.2); text-align: right; line-height: 1.7;">
+      <h3 style="color:#00ff99;text-align:center;margin-top:0;">📋 شروط التسجيل</h3>
+      <ul style="padding-right: 18px; margin:0;">
+        <li>فتح حساب جديد في <strong>Linebet</strong>.</li>
+        <li>التسجيل بالكود برومو <strong>l9osti</strong>.</li>
+        <li>شحن الحساب بمبلغ محترم <strong>100 درهم أو أكثر</strong>.</li>
+      </ul>
+      <p style="margin-top:10px;color:#ffcccc;">⚠️ يجب الإنتباه أنه إذا لم يتم تطبيق أي شرط من هذه الشروط فلن يتم التفعيل!</p>
+      <button id="closeRules" style="background: linear-gradient(90deg,#00ff88,#1aff9c); border: none; border-radius: 10px; padding: 10px 18px; margin-top: 15px; color: #000; font-weight: 700; cursor: pointer; width: 100%;">حسناً، فهمت</button>
+    </div>
+  </div>
+
+  <script>
+    // عناصر DOM
+    const enterBtn = document.getElementById('enterBtn');
+    const linbetId = document.getElementById('linbetId');
+    const splash = document.getElementById('splash');
+    const verify = document.getElementById('verify');
+    const progressFill = document.getElementById('progressFill');
+    const percent = document.getElementById('percent');
+    const errorBox = document.getElementById('errorBox');
+    const btnRow = document.getElementById('btnRow');
+    const retryBtn = document.getElementById('retryBtn');
+    const backBtn = document.getElementById('backBtn');
+
+    // modal
+    const rulesBtn = document.getElementById('rulesBtn');
+    const rulesModal = document.getElementById('rulesModal');
+    const closeRules = document.getElementById('closeRules');
+
+    // تحذير تحركي تحت الخانة
+    linbetId.insertAdjacentHTML("afterend","<p id='warn' style='color:red;font-size:14px;margin-top:6px'></p>");
+    const warn = document.getElementById('warn');
+
+    // التحقق أثناء الكتابة (لاحساس أحمر/أخضر)
+    linbetId.addEventListener('input', () => {
+      const v = linbetId.value.trim();
+      linbetId.style.borderColor = (v.length===10) ? 'green' : (v.length<10) ? 'red' : 'orange';
+      warn.textContent = (v.length<10) ? "⚠️ يجب أن يتكون الـID من 10 أرقام بالضبط." : "";
+    });
+
+    // دالة تحقق نهائية: فقط أرقام وبالضبط 10
+    function checkId() {
+      const v = linbetId.value.trim();
+      if (!/^\d{10}$/.test(v)) {
+        if (v.length > 10) alert("⚠️ الـID يحتوي على أكثر من 10 أرقام!");
+        else alert("⚠️ يجب أن يكون الـID مكون من 10 أرقام!");
+        return false;
+      }
+      return true;
+    }
+
+    // ربط الزر: نتحقق أولاً ثم نبدأ الفحص
+    enterBtn.addEventListener('click', (e) => {
+      if (!checkId()) { e.preventDefault(); return; }
+
+      // إظهار splash ثم verify كما كان
+      splash.style.display = 'flex';
+      verify.classList.remove('active');
+      progressFill.style.width = '0%';
+      percent.textContent = '0%';
+      errorBox.style.display = 'none';
+      btnRow.style.display = 'none';
+
+      setTimeout(() => {
+        splash.classList.add('hidden');
+        verify.classList.add('active');
+        const total = 20000, start = Date.now(), tick = 100;
+        const timer = setInterval(() => {
+          const elapsed = Date.now() - start;
+          const pct = Math.min(100, Math.floor((elapsed/total)*100));
+          progressFill.style.width = pct + '%';
+          percent.textContent = pct + '%';
+          if (elapsed >= total) {
+            clearInterval(timer);
+            errorBox.style.display = 'block';
+            btnRow.style.display = 'flex';
+            progressFill.style.width = '100%';
+            percent.textContent = '100%';
+          }
+        }, tick);
+      }, 10000);
+    });
+
+    // إعادة المحاولة والعودة (كما قبل)
+    retryBtn.addEventListener('click', () => {
+      linbetId.value = '';
+      verify.classList.remove('active');
+      splash.classList.remove('hidden');
+      splash.style.display = 'none';
+    });
+    backBtn.addEventListener('click', () => {
+      verify.classList.remove('active');
+      splash.classList.remove('hidden');
+      splash.style.display = 'none';
+    });
+
+    // modal rules
+    rulesBtn.addEventListener('click', ()=> {
+      rulesModal.style.visibility='visible';
+      rulesModal.style.opacity='1';
+    });
+    closeRules.addEventListener('click', ()=> {
+      rulesModal.style.visibility='hidden';
+      rulesModal.style.opacity='0';
+      // لو بغيت ترجع للصفحة الرئيسية بعد الإغلاق، فكّ السطر التالي:
+      // setTimeout(()=> window.location.href = "index.html", 300);
+    });
+
+  </script>
+</body>
+</html>
